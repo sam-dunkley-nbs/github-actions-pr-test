@@ -5,14 +5,15 @@ on:
     branches:
       - main
 jobs:
-  Explore-GitHub-Actions:
+  test-github-action:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: echo "ACTIONSSSSSSSS"
+      - run: PULL_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
-          number: 1
+          number: ${{ github.event.pull_request.number }}
