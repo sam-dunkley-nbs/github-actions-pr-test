@@ -4,6 +4,9 @@ on:
     types: [opened]
     branches:
       - main
+    paths:
+      - '**pom.xml'
+      - '!.github/**'
 jobs:
   test-github-action:
     if: github.event.pull_request.user.login == 'SpeedLayerBot'
@@ -18,6 +21,8 @@ jobs:
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
             if [[ $changed_file != *pom.xml ]]
             then
+              echo '::set-output name=NONPOMCHANGES::true';
+              break
             fi
             echo '::set-output name=NONPOMCHANGES::false';
           done
