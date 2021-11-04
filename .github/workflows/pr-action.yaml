@@ -9,18 +9,22 @@ jobs:
     if: github.event.pull_request.user.login == 'SpeedLayerBot'
     runs-on: ubuntu-latest
     steps:
-      - name: Check changed files
+      - name: Get changed files
         id: fileChanges
         uses: jitterbit/get-changed-files@v1
-      - run: |
+      - name: Check files for non pom.xml changes
+        id: filesCheck
+        run: |
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
-            echo '$changed_file';
-            if [[ '$changed_file' != *pom.xml ]]
+            echo $changed_file;
+            if [[ $changed_file != *pom.xml ]]
             then
-              echo '::set-output name=ONLY_POM_CHANGES::true';
+              echo '::set-output name=NONPOMCHANGES::true';
             fi
+            echo "File checked $changed_file"
           done
       - name: Approve Pull Request
+        if: steps.filesCheck.outputs.nonPomChanges != 'true'
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
