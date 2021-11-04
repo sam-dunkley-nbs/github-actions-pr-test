@@ -15,7 +15,7 @@ jobs:
       - run: |
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
             echo $changed_file;
-            if [[ $changed_file != *pom.xml ]]
+            if [[ '$changed_file' != *pom.xml ]]
             then
               run: echo '::set-output name=ONLY_POM_CHANGES::true';
             fi
