@@ -32,3 +32,9 @@ jobs:
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
           number: ${{ github.event.pull_request.number }}
+      - name: Approve Pull Request
+        if: steps.filesCheck.outputs.nonPomChanges != 'true'
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.APPROVER_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
