@@ -33,7 +33,9 @@ jobs:
           github-token: ${{ secrets.APPROVER_TOKEN }}
           number: ${{ github.event.pull_request.number }}
       - name: Merge Pull Request
+        if: steps.filesCheck.outputs.nonPomChanges != 'true'
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
           number: ${{ github.event.pull_request.number }}
+          method: squash
