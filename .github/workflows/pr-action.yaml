@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - run: echo "ACTIONSSSSSSSS"
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
         with:
