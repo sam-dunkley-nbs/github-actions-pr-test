@@ -14,10 +14,10 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - run: |
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
-            echo $changed_file;
+            echo '$changed_file';
             if [[ '$changed_file' != *pom.xml ]]
             then
-              run: echo '::set-output name=ONLY_POM_CHANGES::true';
+              echo '::set-output name=ONLY_POM_CHANGES::true';
             fi
           done
       - name: Approve Pull Request
