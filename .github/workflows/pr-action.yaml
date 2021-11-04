@@ -1,11 +1,13 @@
 name: Pull request action approval
-on: 
+on:
+  push:
   pull_request:
     types: [opened]
     branches:
       - main
 jobs:
   test-github-action:
+    if: github.event.pull_request.user.login == "SpeedLayerBot"
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
