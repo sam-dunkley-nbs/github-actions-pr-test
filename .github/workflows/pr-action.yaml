@@ -20,7 +20,6 @@ jobs:
         run: |
           NONRELCHANGES=false;
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
-            echo $changed_file;
             if [[ $changed_file != *pom.xml ]]
             then
               NONRELCHANGES=true;
@@ -28,11 +27,9 @@ jobs:
               break;
             fi;
           done;
-          echo $NONRELCHANGES;
           if [[ $NONRELCHANGES == 'false' ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.removed }}; do
-              echo $changed_file
               if [[ $changed_file == *pom.xml ]]
               then
                 NONRELCHANGES=true
