@@ -27,7 +27,8 @@ jobs:
               break
             fi
           done
-          if [[ $NONRELCHANGES == false ]]
+          echo $NONRELCHANGES
+          if [[ $NONRELCHANGES == 'false' ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.removed }}; do
               echo $changed_file
@@ -39,7 +40,7 @@ jobs:
               fi
             done
           fi
-          if [[ $NONRELCHANGES == false ]]
+          if [[ $NONRELCHANGES == 'false' ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.added }}; do
               if [[ $changed_file == *pom.xml ]]
@@ -50,7 +51,7 @@ jobs:
               fi
             done
           fi
-          if [[ $NONRELCHANGES == false ]]
+          if [[ $NONRELCHANGES == 'false' ]]
           then
             echo '::set-output name=NONRELCHANGES::false';
           fi
