@@ -21,19 +21,39 @@ jobs:
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
             if [[ $changed_file != *pom.xml ]]
             then
-              echo '::set-output name=NONPOMCHANGES::true';
+              NONRELCHANGES=true
               break
             fi
-            echo '::set-output name=NONPOMCHANGES::false';
           done
+          if [[ $NONRELCHANGES == false ]]
+          then
+            for changed_file in ${{ steps.fileChanges.outputs.removed }}; do
+              if [[ $changed_file != *pom.xml ]]
+              then
+                NONRELCHANGES=true
+                break
+              fi
+            done
+          done
+          if [[ $NONRELCHANGES == false ]]
+          then
+            for changed_file in ${{ steps.fileChanges.outputs.added }}; do
+              if [[ $changed_file != *pom.xml ]]
+              then
+                NONRELCHANGES=true
+                break
+              fi
+            done
+          done
+          echo '::set-output name=NONRELCHANGES::$NONRELCHANGES';
       - name: Approve Pull Request
-        if: steps.filesCheck.outputs.nonPomChanges != 'true'
+        if: steps.filesCheck.outputs.nONRELCHANGES != 'true'
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
           number: ${{ github.event.pull_request.number }}
       - name: Merge Pull Request
-        if: steps.filesCheck.outputs.nonPomChanges != 'true'
+        if: steps.filesCheck.outputs.nONRELCHANGES != 'true'
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
