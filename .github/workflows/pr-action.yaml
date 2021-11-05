@@ -18,16 +18,17 @@ jobs:
       - name: Check files for non pom.xml changes
         id: filesCheck
         run: |
+          NONRELCHANGES=false;
           for changed_file in ${{ steps.fileChanges.outputs.all }}; do
-            echo $changed_file
+            echo $changed_file;
             if [[ $changed_file != *pom.xml ]]
             then
-              NONRELCHANGES=true
+              NONRELCHANGES=true;
               echo '::set-output name=NONRELCHANGES::true';
-              break
-            fi
-          done
-          echo $NONRELCHANGES
+              break;
+            fi;
+          done;
+          echo $NONRELCHANGES;
           if [[ $NONRELCHANGES == 'false' ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.removed }}; do
@@ -37,20 +38,20 @@ jobs:
                 NONRELCHANGES=true
                 echo '::set-output name=NONRELCHANGES::true';
                 break
-              fi
-            done
-          fi
+              fi;
+            done;
+          fi;
           if [[ $NONRELCHANGES == 'false' ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.added }}; do
               if [[ $changed_file == *pom.xml ]]
               then
-                NONRELCHANGES=true
+                NONRELCHANGES=true;
                 echo '::set-output name=NONRELCHANGES::true';
-                break
-              fi
-            done
-          fi
+                break;
+              fi;
+            done;
+          fi;
           if [[ $NONRELCHANGES == 'false' ]]
           then
             echo '::set-output name=NONRELCHANGES::false';
