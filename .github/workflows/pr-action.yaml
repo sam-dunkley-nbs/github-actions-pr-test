@@ -47,13 +47,13 @@ jobs:
           done
           echo '::set-output name=NONRELCHANGES::$NONRELCHANGES';
       - name: Approve Pull Request
-        if: steps.filesCheck.outputs.nONRELCHANGES != 'true'
+        if: steps.filesCheck.outputs.nonRelChanges != 'true'
         uses: juliangruber/approve-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
           number: ${{ github.event.pull_request.number }}
       - name: Merge Pull Request
-        if: steps.filesCheck.outputs.nONRELCHANGES != 'true'
+        if: steps.filesCheck.outputs.nonRelChanges != 'true'
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.APPROVER_TOKEN }}
