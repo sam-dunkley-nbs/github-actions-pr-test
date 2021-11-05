@@ -23,6 +23,7 @@ jobs:
             if [[ $changed_file != *pom.xml ]]
             then
               NONRELCHANGES=true
+              echo '::set-output name=NONRELCHANGES::true';
               break
             fi
           done
@@ -33,6 +34,7 @@ jobs:
               if [[ $changed_file == *pom.xml ]]
               then
                 NONRELCHANGES=true
+                echo '::set-output name=NONRELCHANGES::true';
                 break
               fi
             done
@@ -40,15 +42,18 @@ jobs:
           if [[ $NONRELCHANGES == false ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.added }}; do
-              echo $changed_file
               if [[ $changed_file == *pom.xml ]]
               then
                 NONRELCHANGES=true
+                echo '::set-output name=NONRELCHANGES::true';
                 break
               fi
             done
           fi
-          echo '::set-output name=NONRELCHANGES::$NONRELCHANGES';
+          if [[ $NONRELCHANGES == false ]]
+          then
+            echo '::set-output name=NONRELCHANGES::false';
+          fi
       - name: Approve Pull Request
         if: steps.filesCheck.outputs.nonRelChanges != 'true'
         uses: juliangruber/approve-pull-request-action@v1
