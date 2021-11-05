@@ -34,7 +34,7 @@ jobs:
                 break
               fi
             done
-          done
+          fi
           if [[ $NONRELCHANGES == false ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.added }}; do
@@ -44,7 +44,7 @@ jobs:
                 break
               fi
             done
-          done
+          fi
           echo '::set-output name=NONRELCHANGES::$NONRELCHANGES';
       - name: Approve Pull Request
         if: steps.filesCheck.outputs.nonRelChanges != 'true'
