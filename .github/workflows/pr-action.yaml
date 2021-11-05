@@ -28,7 +28,7 @@ jobs:
           if [[ $NONRELCHANGES == false ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.removed }}; do
-              if [[ $changed_file != *pom.xml ]]
+              if [[ $changed_file == *pom.xml ]]
               then
                 NONRELCHANGES=true
                 break
@@ -38,7 +38,7 @@ jobs:
           if [[ $NONRELCHANGES == false ]]
           then
             for changed_file in ${{ steps.fileChanges.outputs.added }}; do
-              if [[ $changed_file != *pom.xml ]]
+              if [[ $changed_file == *pom.xml ]]
               then
                 NONRELCHANGES=true
                 break
