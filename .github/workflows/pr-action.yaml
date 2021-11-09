@@ -10,7 +10,7 @@ on:
       - '!.github/**'
 jobs:
   test-github-action:
-    if: github.event.actor.login == 'sam-dunkley-nbs'
+    if: github.event.pull_request.user.login == 'sam-dunkley-nbs'
     runs-on: ubuntu-latest
     steps:
       - name: Get changed files
